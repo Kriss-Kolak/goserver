@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -12,7 +13,11 @@ func main() {
 
 	m.HandleFunc("/", handlePage)
 
-	const port = "8010"
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("PORT ENV VARIABLE WAS NOT SETUP CORECTLY")
+		return
+	}
 	srv := http.Server{
 		Handler:      m,
 		Addr:         ":" + port,
